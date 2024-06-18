@@ -46,6 +46,19 @@ def get_parser():
         help="Filter by the current status of the ads at the moment the script runs",
     )
     parser.add_argument(
+        "--media-type", help="Search for ads based on whether they contain a specific type of media,"
+                             "such as an image or video."
+    )
+    parser.add_argument(
+        "--ad-type", help="Default value: 'ALL'"
+                          "Search by type of ad. You can use this to narrow your results to ads in special ad "
+                          "categories"
+                          ": CREDIT_ADS returns ads related to financial products or institutions. EMPLOYMENT_ADS"
+                          "returns ads related to job listings or employment opportunities. HOUSING_ADS returns housing"
+                          "or real estate ads. POLITICAL_AND_ISSUE_ADS returns ads about social issues, elections or"
+                          "politics. ALL returns ads on all topics."
+    )
+    parser.add_argument(
         "--after-date", help="Only return ads that started delivery after this date"
     )
     parser.add_argument("--batch-size", type=int, help="Batch size")
@@ -122,6 +135,10 @@ def main():
         api.search_page_ids = opts.search_page_ids
     if opts.ad_active_status:
         api.ad_active_status = opts.ad_active_status
+    if opts.ad_type:
+        api.ad_type = opts.ad_type
+    if opts.media_type:
+        api.media_type = opts.media_type
     if opts.batch_size:
         api.page_limit = opts.batch_size
     if opts.retry_limit:

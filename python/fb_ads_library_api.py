@@ -24,9 +24,9 @@ class FbAdsLibraryTraversal:
     default_url_pattern = (
         "https://graph.facebook.com/{}/ads_archive?access_token={}&"
         + "fields={}&search_terms={}&ad_reached_countries={}&search_page_ids={}&"
-        + "ad_active_status={}&limit={}"
+        + "ad_active_status={}&limit={}&ad_type={}&media_type={}"
     )
-    default_api_version = "v14.0"
+    default_api_version = "v20.0"
 
     def __init__(
         self,
@@ -40,6 +40,8 @@ class FbAdsLibraryTraversal:
         page_limit=500,
         api_version=None,
         retry_limit=3,
+        ad_type="ALL",
+        media_type="ALL",
     ):
         self.page_count = 0
         self.access_token = access_token
@@ -51,6 +53,8 @@ class FbAdsLibraryTraversal:
         self.ad_active_status = ad_active_status
         self.page_limit = page_limit
         self.retry_limit = retry_limit
+        self.ad_type = ad_type
+        self.media_type = media_type
         if api_version is None:
             self.api_version = self.default_api_version
         else:
@@ -66,6 +70,8 @@ class FbAdsLibraryTraversal:
             self.search_page_ids,
             self.ad_active_status,
             self.page_limit,
+            self.ad_type,
+            self.media_type,
         )
         return self.__class__._get_ad_archives_from_url(
             next_page_url, after_date=self.after_date, retry_limit=self.retry_limit
